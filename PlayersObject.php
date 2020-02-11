@@ -17,7 +17,10 @@
 
 */
 
-
+/*
+ * TO DO:
+ * Split general interface - Interface segregation
+ */
 interface IReadWritePlayers {
     function readPlayers($source, $filename = null);
     function writePlayer($source, $player, $filename = null);
