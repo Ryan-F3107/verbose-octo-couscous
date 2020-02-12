@@ -20,14 +20,21 @@
 /*
  * TO DO:
  * Split general interface - Interface segregation
+ * break down the class to single responsibility
  */
-interface IReadWritePlayers {
+interface IReadPlayers {
     function readPlayers($source, $filename = null);
+}
+
+interface IWritePlayers {
     function writePlayer($source, $player, $filename = null);
+}
+
+interface IDisplayPlayers {
     function display($isCLI, $course, $filename = null);
 }
 
-class PlayersObject implements IReadWritePlayers {
+class PlayersObject implements IReadPlayers,IWritePlayers,IDisplayPlayers {
 
     private $playersArray;
 
