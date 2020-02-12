@@ -1,6 +1,6 @@
 <?php
 
-require 'PlayersObject.php';
+require 'PlayerModel.php';
 
 interface IDisplayPlayers {
     function display($isCLI, $course, $filename = null);

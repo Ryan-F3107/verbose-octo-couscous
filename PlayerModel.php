@@ -2,24 +2,42 @@
 
 /*
     Development Exercise
+
       The following code is poorly designed and error prone. Refactor the objects below to follow a more SOLID design.
       Keep in mind the fundamentals of MVVM/MVC and Single-responsibility when refactoring.
+
       Further, the refactored code should be flexible enough to easily allow the addition of different display
         methods, as well as additional read and write methods.
+
       Feel free to add as many additional classes and interfaces as you see fit.
+
       Note: Please create a fork of the https://github.com/BrandonLegault/exercise repository and commit your changes
         to your fork. The goal here is not 100% correctness, but instead a glimpse into how you
         approach refactoring/redesigning bad code. Commit often to your fork.
+
 */
 
-
-interface IReadWritePlayers {
+/*
+ * TO DO:
+ * Split general interface - Interface segregation
+ * Single responsibility- break down PlayersObject class
+ *
+ * MVC-framework - fundamentals
+ */
+interface IReadPlayers {
     function readPlayers($source, $filename = null);
-    function writePlayer($source, $player, $filename = null);
-    function display($isCLI, $course, $filename = null);
 }
 
-class PlayersObject implements IReadWritePlayers {
+interface IWritePlayers {
+    function writePlayer($source, $player, $filename = null);
+}
+
+//  Interface to obtain content of JSON file.
+interface getJSON {
+    function getPlayerDataJson();
+}
+
+class PlayerModel implements IWritePlayers,getJSON {
 
     private $playersArray;
 
@@ -31,34 +49,6 @@ class PlayersObject implements IReadWritePlayers {
 
         //We'll only use this one if we're storing players as a JSON string
         $this->playerJsonString = null;
-    }
-
-    /**
-     * @param $source string Where we're retrieving the data from. 'json', 'array' or 'file'
-     * @param $filename string Only used if we're reading players in 'file' mode.
-     * @return string json
-     */
-    function readPlayers($source, $filename = null) {
-        $playerData = null;
-
-        switch ($source) {
-            case 'array':
-                $playerData = $this->getPlayerDataArray();
-                break;
-            case 'json':
-                $playerData = $this->getPlayerDataJson();
-                break;
-            case 'file':
-                $playerData = $this->getPlayerDataFromFile($filename);
-                break;
-        }
-
-        if (is_string($playerData)) {
-            $playerData = json_decode($playerData);
-        }
-
-        return $playerData;
-
     }
 
     /**
@@ -127,70 +117,48 @@ class PlayersObject implements IReadWritePlayers {
 
     }
 
-    function getPlayerDataJson() {
-        $json = '[{"name":"Jonas Valenciunas","age":26,"job":"Center","salary":"4.66m"},{"name":"Kyle Lowry","age":32,"job":"Point Guard","salary":"28.7m"},{"name":"Demar DeRozan","age":28,"job":"Shooting Guard","salary":"26.54m"},{"name":"Jakob Poeltl","age":22,"job":"Center","salary":"2.704m"}]';
-        return $json;
-    }
 
     function getPlayerDataFromFile($filename) {
         $file = file_get_contents($filename);
         return $file;
     }
 
-    function display($isCLI, $source, $filename = null) {
-
-        $players = $this->readPlayers($source, $filename);
-
-        if ($isCLI) {
-            echo "Current Players: \n";
-            foreach ($players as $player) {
-
-                echo "\tName: $player->name\n";
-                echo "\tAge: $player->age\n";
-                echo "\tSalary: $player->salary\n";
-                echo "\tJob: $player->job\n\n";
-            }
-        } else {
-
-            ?>
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>
-                    li {
-                        list-style-type: none;
-                        margin-bottom: 1em;
-                    }
-                    span {
-                        display: block;
-                    }
-                </style>
-            </head>
-            <body>
-            <div>
-                <span class="title">Current Players</span>
-                <ul>
-                    <?php foreach($players as $player) { ?>
-                        <li>
-                            <div>
-                                <span class="player-name">Name: <?= $player->name ?></span>
-                                <span class="player-age">Age: <?= $player->age ?></span>
-                                <span class="player-salary">Salary: <?= $player->salary ?></span>
-                                <span class="player-job">Job: <?= $player->job ?></span>
-                            </div>
-                        </li>
-                    <?php } ?>
-                </ul>
-            </body>
-            </html>
-            <?php
-        }
+    function getPlayerDataJson() {
+        return file_get_contents('playerdata.json');
     }
 
 }
 
-$playersObject = new PlayersObject();
+class ReadPlayer extends PlayerModel implements  IReadPlayers,getJSON {
+    /**
+     * @param $source string Where we're retrieving the data from. 'json', 'array' or 'file'
+     * @param $filename string Only used if we're reading players in 'file' mode.
+     * @return string json
+     */
+    function readPlayers($source, $filename = null) {
+        $playerData = null;
 
-$playersObject->display(php_sapi_name() === 'cli', 'array');
+        switch ($source) {
+            case 'array':
+                $playerData = $this->getPlayerDataArray();
+                break;
+            case 'json':
+                $playerData = $this->getPlayerDataJson();
+                break;
+            case 'file':
+                $playerData = $this->getPlayerDataFromFile($filename);
+                break;
+        }
+
+        if (is_string($playerData)) {
+            $playerData = json_decode($playerData);
+        }
+
+        return $playerData;
+
+    }
+}
+
+
 
 ?>
