@@ -152,7 +152,6 @@ class ReadPlayer extends PlayersObject implements  IReadPlayers,getJSON {
 
         if (is_string($playerData)) {
             $playerData = json_decode($playerData);
-            print_r($playerData);
         }
 
         return $playerData;
