@@ -1,6 +1,7 @@
 <?php
 /*
- * PlayerModel class will receive data from the database or in this case the: array, json or file.
+ * PlayerModel class will receive data from the database or in this case the: array, json or file. If data needs to be
+ * read and displayed to the user.
  * This class would communicate with the
  */
 
@@ -11,7 +12,7 @@ class PlayerModel {
         $players = [];
 
         $jonas = new stdClass();
-        $jonas->name = 'Jonas ValenciunasARRAY';
+        $jonas->name = 'Jonas Valenciunas';
         $jonas->age = 26;
         $jonas->job = 'Center';
         $jonas->salary = '4.66m';
@@ -42,10 +43,6 @@ class PlayerModel {
 
     }
 
-    /*
-     * Not sure if this is the best way for obtaining the data for getPLayerDataJson.
-     * I would use file_get_contents('playerdata.json') to obtain the information since we are given the json file.
-     */
     function getPlayerDataJson() {
         $json = '[{"name":"Jonas Valenciunas","age":26,"job":"Center","salary":"4.66m"},{"name":"Kyle Lowry","age":32,"job":"Point Guard","salary":"28.7m"},{"name":"Demar DeRozan","age":28,"job":"Shooting Guard","salary":"26.54m"},{"name":"Jakob Poeltl","age":22,"job":"Center","salary":"2.704m"}]';
         return $json;

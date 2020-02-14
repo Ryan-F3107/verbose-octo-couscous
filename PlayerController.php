@@ -2,7 +2,7 @@
 
 /*
  * The PlayerController file would contain Read and Write functions that would interact with the Model file to grab the
- * data and send it to the PlayerView file.
+ * data and send it to the PlayerView file, if it needs to be displayed.
  */
 
 include_once 'PlayerModel.php';

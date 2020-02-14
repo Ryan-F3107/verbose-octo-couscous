@@ -1,6 +1,5 @@
 <?php
 
-include_once 'PlayerModel.php';
 include_once 'PlayerController.php';
 
 //interface just for the display function
