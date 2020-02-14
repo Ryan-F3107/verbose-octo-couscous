@@ -25,14 +25,3 @@ $playersOne->display(php_sapi_name() === 'cli', 'array');
 $playerTwo = new Display();
 // Display on web using information from json
 $playerTwo->display(php_sapi_name() === 'cli', 'json');
-
-//
-//$ryan = new stdClass();
-//$ryan->name = 'Ryan Fernandes';
-//$ryan->age = 26;
-//$ryan->job = 'Center';
-//$ryan->salary = '4.66m';
-//
-//$playerThree = new WritePlayer();
-//$playerThree->writePlayer('array',$ryan);
-//print_r($playerThree);
