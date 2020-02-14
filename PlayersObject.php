@@ -17,22 +17,13 @@
 
 */
 
-// interface just for the write function
-interface IWritePlayers {
-    function writePlayer($source, $player, $filename = null);
-}
-
-//interface just for the read function
-interface IReadPlayers {
+interface IReadWritePlayers {
     function readPlayers($source, $filename = null);
-}
-
-//interface just for the display function
-interface IdisplayPlayers{
+    function writePlayer($source, $player, $filename = null);
     function display($isCLI, $course, $filename = null);
 }
 
-class PlayersObject implements IWritePlayers,IReadPlayers,IdisplayPlayers {
+class PlayersObject implements IReadWritePlayers {
 
     private $playersArray;
 
@@ -201,5 +192,9 @@ class PlayersObject implements IWritePlayers,IReadPlayers,IdisplayPlayers {
     }
 
 }
+
+$playersObject = new PlayersObject();
+
+$playersObject->display(php_sapi_name() === 'cli', 'array');
 
 ?>
